@@ -9,11 +9,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Android NDK
-        uses: nttld/setup-ndk@v2
-        with:
-          ndk-version: r25b
-          add-to-path: true
+      - name: Download and Set up Android NDK
+        run: |
+          echo "Downloading NDK..."
+          wget -q https://dl.google.com/android/repository/android-ndk-r25b-linux.zip
+          echo "Unpacking NDK..."
+          unzip -q android-ndk-r25b-linux.zip
+          echo "Configuring PATH..."
+          echo "$PWD/android-ndk-r25b" >> $GITHUB_PATH
 
       - name: Build with ndk-build
         run: ndk-build
