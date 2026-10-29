@@ -1,0 +1,27 @@
+name: Build Android NDK Library
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Android NDK
+        uses: nttld/setup-ndk@v2
+        with:
+          ndk-version: r25b
+          add-to-path: true
+
+      - name: Build with ndk-build
+        run: ndk-build
+
+      - name: Upload compiled library (.so)
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-libs
+          path: libs/**/*.so
+          if-no-files-found: error
+          
