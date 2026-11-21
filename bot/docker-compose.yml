@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  bot:
+    build: .
+    container_name: proxy-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./bot.db:/app/bot.db
+      - ./bot.log:/app/bot.log
+    # For webhook mode, uncomment ports and set WEBHOOK_HOST in .env
+    # ports:
+    #   - "8080:8080"
+    # environment:
+    #   - WEBHOOK_HOST=your-domain.com
+
+  # Optional: PostgreSQL for production
+  # postgres:
+  #   image: postgres:15-alpine
+  #   container_name: proxy-bot-db
+  #   restart: unless-stopped
+  #   environment:
+  #     POSTGRES_DB: proxy_bot
+  #     POSTGRES_USER: botuser
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+
+# volumes:
+#   postgres_data:
